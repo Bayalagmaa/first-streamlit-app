@@ -1,16 +1,17 @@
 # import streamlit as st
 # import pandas as pd
 # import seaborn as sns
-# import matplotlib
-# matplotlib.use("Agg")  # Use the 'Agg' backend to prevent conflicts with Streamlit
-# import matplotlib.pyplot as plt
+
 
 
 # Imports
 import streamlit as st
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")  # Use the 'Agg' backend to prevent conflicts with Streamlit
 import matplotlib.pyplot as plt 
 import seaborn as sns
+
 
 # Theme  
 sns.set_theme(style="whitegrid")
