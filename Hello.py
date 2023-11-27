@@ -1,38 +1,48 @@
+# import streamlit as st
+# import pandas as pd
+# import seaborn as sns
+# import matplotlib
+# matplotlib.use("Agg")  # Use the 'Agg' backend to prevent conflicts with Streamlit
+# import matplotlib.pyplot as plt
+
+
+# Imports
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt 
 import seaborn as sns
-import matplotlib
-matplotlib.use("Agg")  # Use the 'Agg' backend to prevent conflicts with Streamlit
-import matplotlib.pyplot as plt
 
+# Theme  
+sns.set_theme(style="whitegrid")
 
-# Load data from CSV
-df = pd.read_csv('jobs.csv')
+# Page config
+st.set_page_config(page_title="Job Explorer", page_icon="📈") 
 
-# Streamlit app
-st.title('Jobs Visualization App')
+# Load data 
+@st.cache_data
+def load_data(csv):
+    df = pd.read_csv(csv)
+    return df
 
-# User input - Select Sector
-sectors = df['Sector'].unique()
-selected_sector = st.selectbox('Select Sector', sectors)
-st.write(f"You selected: {selected_sector}")
+df = load_data("jobs.csv")   
 
-# Filter data based on user selection
-filtered_data = df[df['Sector'] == selected_sector]
+# Title
+st.title("Job Data Explorer")
 
-# Visualization
-st.subheader('Salary Distribution for Selected Sector')
+# Sector filter  
+sector = st.selectbox("Select a sector", df['Sector'].unique())  
+filtered_df = df[df["Sector"] == sector]
 
-# Set style and context for seaborn
-sns.set(style="whitegrid", palette="pastel")
+# Data summary
+st.dataframe(filtered_df.describe())  
 
-# Create the plot
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.histplot(filtered_data['Salary'], kde=True, ax=ax)
-ax.set_xlabel('Salary', fontsize=12)
-ax.set_ylabel('Frequency', fontsize=12)
-ax.set_title(f'Salary Distribution for {selected_sector}', fontsize=16)
-sns.despine()
-
-# Show plot in Streamlit
+# Salary distribution 
+fig, ax = plt.subplots()
+sns.histplot(filtered_df["Salary"], ax=ax)
+ax.set(xlabel="Salary")  
 st.pyplot(fig)
+
+# Other visualizations...
+
+# Footer 
+st.write("""**Data source:** *jobs.csv*""")
