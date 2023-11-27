@@ -9,6 +9,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib
 matplotlib.use("Agg")  # Use the 'Agg' backend to prevent conflicts with Streamlit
+import pip
+pip.main(["install","matplotlib"])
+import matplotlib
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
