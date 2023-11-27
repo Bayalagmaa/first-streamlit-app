@@ -1,6 +1,5 @@
-# Imports
 import streamlit as st
-import pandas as pd 
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -29,10 +28,17 @@ filtered_df = df[df["Sector"] == sector]
 st.dataframe(filtered_df.describe())
 
 # Salary distribution
-fig, ax = plt.subplots() 
-sns.histplot(filtered_df["Salary"], ax=ax)  
-ax.set(xlabel="Salary")   
-st.pyplot(fig)
+plt.figure(figsize=(8, 6))  # Adjust figure size for better spacing
 
-# Footer 
-st.write("**Data source:** *jobs.csv*")
+ax = sns.histplot(filtered_df["Salary"])
+ax.set(xlabel="Salary")   
+
+# Adjusting x-axis tick labels
+plt.xticks(rotation=45, ha='right', fontsize=8)
+plt.tight_layout()
+
+# Display the plot using st.pyplot() with the figure object
+st.pyplot(plt.gcf())  # Pass in the current figure (gcf)
+
+# Disable the warning
+st.set_option('deprecation.showPyplotGlobalUse', False)
